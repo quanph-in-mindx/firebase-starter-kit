@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login</title>
+
+        <!-- Trang này yêu cầu không đăng nhập, user đăng nhập rồi sẽ không vào được -->
+        <script src="./auth.js"></script>
+        <script>
+            // Kiểm tra xem user đã đăng nhập chưa
+            if (user) {
+                // Nếu đã đăng nhập thì chuyển đến trang profile
+                window.location.href = "/profile.html";
+            }
+        </script>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body>
+        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <img
+                    class="mx-auto h-10 w-auto"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    alt="Your Company"
+                />
+                <h2
+                    class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
+                >
+                    Sign in to your account
+                </h2>
+            </div>
+
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div>
+                    <button
+                        id="google-sign-in"
+                        type="submit"
+                        class="flex w-full justify-center items-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 gap-2 py-2"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="31.27"
+                            height="24"
+                            viewBox="0 0 256 262"
+                        >
+                            <path
+                                fill="#4285F4"
+                                d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622l38.755 30.023l2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+                            />
+                            <path
+                                fill="#34A853"
+                                d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055c-34.523 0-63.824-22.773-74.269-54.25l-1.531.13l-40.298 31.187l-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+                            />
+                            <path
+                                fill="#FBBC05"
+                                d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82c0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602z"
+                            />
+                            <path
+                                fill="#EB4335"
+                                d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+                            />
+                        </svg>
+
+                        Sign in with Google
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Để swur dụng import/export thì script phải có type là module -->
+        <script type="module">
+            import {
+                signInWithPopup, // Đăng nhập bằng popup
+                GoogleAuthProvider, // Cung cấp thông tin đăng nhập bằng Google
+            } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+            import { auth } from "./firebase.js";
+
+            const provider = new GoogleAuthProvider();
+            document
+                .getElementById("google-sign-in")
+                .addEventListener("click", () => {
+                    signInWithPopup(auth, provider)
+                        .then((result) => {
+                            // This gives you a Google Access Token. You can use it to access the Google API.
+                            const credential =
+                                GoogleAuthProvider.credentialFromResult(result);
+                            const token = credential.accessToken;
+                            // The signed-in user info.
+                            const user = result.user;
+
+                            // Lưu lại thông tin user
+                            const localUser = {
+                                name: user.displayName,
+                                email: user.email,
+                                avatar: user.photoURL,
+                                uid: user.uid,
+                            };
+                            // Lưu thông tin user vào localStorage
+                            localStorage.setItem(
+                                "user",
+                                JSON.stringify(localUser)
+                            );
+                            // Chuyển đến trang profile
+                            window.location.href = "/profile.html";
+                        })
+                        .catch((error) => {
+                            // Handle Errors here.
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            alert(errorMessage);
+                            console.log({ errorCode, errorMessage });
+                            // The email of the user's account used.
+                            const email = error.customData.email;
+                            // The AuthCredential type that was used.
+                            const credential =
+                                GoogleAuthProvider.credentialFromError(error);
+                            // ...
+                        });
+                });
+        </script>
+    </body>
+</html>
