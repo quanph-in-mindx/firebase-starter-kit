@@ -326,7 +326,8 @@
                 <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                     <!-- Trigger -->
                     <div
-                        class="w-12 h-12 rounded-full bg-gray-800 fixed bottom-8 right-8 flex justify-center items-center"
+                        class="w-12 h-12 rounded-full bg-gray-800 fixed bottom-8 right-8 flex justify-center items-center cursor-pointer"
+                        id="trigger"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -341,8 +342,111 @@
                             />
                         </svg>
                     </div>
+
+                    <!-- Chatbox -->
+                    <div
+                        class="w-72 h-80 fixed right-8 bottom-24 text-white -translate-y-8 opacity-0 invisible transition-all duration-1000"
+                        id="chatbox"
+                    >
+                        <div
+                            class="p-4 pb-8 font-semibold bg-gray-800 rounded-t-xl absolute w-full z-10 -top-14"
+                        >
+                            Chatbot
+                        </div>
+
+                        <div
+                            class="bg-white h-full rounded-b-xl border z-20 relative flex flex-col text-gray-700"
+                        >
+                            <div
+                                class="grow py-4 space-y-4 max-h-[calc(100%-71px)] overflow-y-auto"
+                            >
+                                <div class="flex text-xs px-4">
+                                    <p
+                                        class="bg-gray-800 text-white p-2 rounded-xl"
+                                    >
+                                        Lorem ipsum, dolor sit amet consectetur
+                                        adipisicing elit.
+                                    </p>
+                                    <img
+                                        class="ml-1 mt-2 h-4 w-4 rounded-full"
+                                        src="https://lh3.googleusercontent.com/a/ACg8ocJ2je9Khaw6MYqUIF-8RlZIM1BSd2YEkDRt91_lax9lHUI=s96-c"
+                                        alt=""
+                                    />
+                                </div>
+                                <div class="flex text-xs px-4">
+                                    <img
+                                        class="mr-1 mt-2 h-4 w-4 rounded-full"
+                                        src="https://lh3.googleusercontent.com/a/ACg8ocJ2je9Khaw6MYqUIF-8RlZIM1BSd2YEkDRt91_lax9lHUI=s96-c"
+                                        alt=""
+                                    />
+                                    <p
+                                        class="bg-white border text-gray-700 p-2 rounded-xl"
+                                    >
+                                        Lorem ipsum, dolor sit amet consectetur
+                                        adipisicing elit.
+                                    </p>
+                                </div>
+                                <div class="flex text-xs px-4">
+                                    <img
+                                        class="mr-1 mt-2 h-4 w-4 rounded-full"
+                                        src="https://lh3.googleusercontent.com/a/ACg8ocJ2je9Khaw6MYqUIF-8RlZIM1BSd2YEkDRt91_lax9lHUI=s96-c"
+                                        alt=""
+                                    />
+                                    <p
+                                        class="bg-white border text-gray-700 p-2 rounded-xl"
+                                    >
+                                        Lorem ipsum, dolor sit amet consectetur
+                                        adipisicing elit.
+                                    </p>
+                                </div>
+                                <div class="flex text-xs px-4">
+                                    <p
+                                        class="bg-gray-800 text-white p-2 rounded-xl"
+                                    >
+                                        Lorem ipsum, dolor sit amet consectetur
+                                        adipisicing elit.
+                                    </p>
+                                    <img
+                                        class="ml-1 mt-2 h-4 w-4 rounded-full"
+                                        src="https://lh3.googleusercontent.com/a/ACg8ocJ2je9Khaw6MYqUIF-8RlZIM1BSd2YEkDRt91_lax9lHUI=s96-c"
+                                        alt=""
+                                    />
+                                </div>
+                            </div>
+                            <div class="p-4 border-t">
+                                <input
+                                    type="text"
+                                    class="border rounded-md p-2 focus:outline-none w-full text-sm"
+                                    placeholder="Enter your message"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
+
+        <script>
+            const chatbox = document.getElementById("chatbox");
+            const trigger = document.getElementById("trigger");
+
+            trigger.addEventListener("click", () => {
+                if (chatbox.classList.contains("invisible")) {
+                    chatbox.classList.remove(
+                        "-translate-y-8",
+                        "opacity-0",
+                        "invisible"
+                    );
+                    chatbox.classList.add("opacity-100", "visible");
+                } else {
+                    chatbox.classList.remove("opacity-100", "visible");
+                    chatbox.classList.add(
+                        "-translate-y-8",
+                        "opacity-0",
+                        "invisible"
+                    );
+                }
+            });
+        </script>
     </body>
 </html>
