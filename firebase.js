@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 // Config copy từ Firebase Console
 const firebaseConfig = {
@@ -16,5 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Khởi tạo auth
 const auth = getAuth(app);
+// Khởi tạo database
+const database = getDatabase(app);
 
-export { auth };
+export { auth, database };
