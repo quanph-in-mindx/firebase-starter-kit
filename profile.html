@@ -421,7 +421,8 @@
                     set(newMessageRef, { // Gán dữ liệu cho nhánh mới vừa tạo
                         sender: user.email, // sender là email của user đang đăng nhập
                         avatar: user.avatar, // avatar của user đang đăng nhập
-                        message: message // nội dung tin nhắn
+                        message: message, // nội dung tin nhắn
+                        type: "text" // loại tin nhắn
                     });
                     inputMessage.value = ""; // Xóa nội dung tin nhắn trong ô input
                 }
