@@ -409,34 +409,34 @@
                 onValue
             } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-            const inputMessage = document.getElementById("message");
-            inputMessage.addEventListener("keydown", (e) => {
-                if (e.keyCode === 13) {
-                    // Nếu keyCode = 13 tức là nút Enter
-                    const message = inputMessage.value.trim();
-                    if (message === "") return false;
+            // Gửi tin nhắn
+            const inputMessage = document.getElementById("message"); // Ô input nhập tin nhắn
+            inputMessage.addEventListener("keydown", (e) => { // Bắt sự kiện khi người dùng nhập tin nhắn
+                if (e.keyCode === 13) { // Nếu keyCode = 13 tức là nút Enter
+                    const message = inputMessage.value.trim(); // Lấy ra nội dung tin nhắn
+                    if (message === "") return false; // Nếu nội dung tin nhắn rỗng thì không làm gì cả
 
-                    const messageListRef = ref(database, "chats");
-                    const newMessageRef = push(messageListRef);
-                    set(newMessageRef, {
-                        sender: user.email,
-                        avatar: user.avatar,
-                        message: message
+                    const messageListRef = ref(database, "chats"); // Trỏ đến nhánh chats trong database
+                    const newMessageRef = push(messageListRef); // Tạo một nhánh mới trong nhánh chats
+                    set(newMessageRef, { // Gán dữ liệu cho nhánh mới vừa tạo
+                        sender: user.email, // sender là email của user đang đăng nhập
+                        avatar: user.avatar, // avatar của user đang đăng nhập
+                        message: message // nội dung tin nhắn
                     });
-                    inputMessage.value = "";
+                    inputMessage.value = ""; // Xóa nội dung tin nhắn trong ô input
                 }
             });
 
-            const chatRef = ref(database, "/chats");
-            onValue(chatRef, (snapshot) => {
-                snapshot.forEach((messageSnap) => {
-                    const messageKey = messageSnap.key;
-                    const messageData = messageSnap.val();
-                    const sender = messageData.sender;
-                    const isMine = sender == user.email;
-                    console.log(messageData);
+            // Hiển thị tin nhắn
+            const chatRef = ref(database, "/chats"); // Trỏ đến nhánh chats trong database
+            onValue(chatRef, (snapshot) => { // Bắt sự kiện khi có thay đổi trong nhánh chats
+                snapshot.forEach((messageSnap) => { // Duyệt qua từng tin nhắn
+                    const messageKey = messageSnap.key; // Lấy ra key của tin nhắn
+                    const messageData = messageSnap.val(); // Lấy ra dữ liệu của tin nhắn
+                    const sender = messageData.sender; // Lấy ra email của người gửi tin nhắn
+                    const isMine = sender == user.email; // Kiểm tra xem tin nhắn có phải của mình không
 
-                    if (isMine) {
+                    if (isMine) { // Nếu tin nhắn là của mình thì hiển thị bên phải
                         document
                             .getElementById("chat-container")
                             .insertAdjacentHTML(
@@ -456,7 +456,7 @@
                                 </div>
                             `
                             );
-                    } else {
+                    } else { // Nếu tin nhắn không phải của mình thì hiển thị bên trái
                         document
                             .getElementById("chat-container")
                             .insertAdjacentHTML(
@@ -478,6 +478,7 @@
                             );
                     }
 
+                    // Cuộn xuống cuối cùng
                     document.getElementById("chat-container").scrollTop =
                         document.getElementById("chat-container").scrollHeight;
                 });
